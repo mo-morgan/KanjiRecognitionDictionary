@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.graphics.Color;
@@ -160,12 +161,14 @@ public class MainActivity extends AppCompatActivity {
         // If a kanji was selected return it (doesn't matter which activity it
         // came from)
         String kanji = data.getStringExtra(EXTRA_KANJI);
-        if(kanji != null && kanji.length() > 0)
-        {
-            setResult(RESULT_OK, data);
-            finish();
-            return;
-        }
+        EditText e = (EditText) findViewById(R.id.input_text);
+        e.setText(e.getText().toString() + kanji);
+//        if(kanji != null && kanji.length() > 0)
+//        {
+//            setResult(RESULT_OK, data);
+//            finish();
+//            return;
+//        }
     }
 
     static boolean tryMore(Activity activity, Intent lastIntent)

@@ -1,11 +1,16 @@
 package com.example.morgan.kanjirecognitiondictionary;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.view.View.OnClickListener;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.example.morgan.kanjirecognitiondictionary.KanjiDrawing.*;
 import com.example.morgan.kanjirecognitiondictionary.util.KanjiInfo;
@@ -58,7 +63,7 @@ public class ResultsActivity extends AppCompatActivity {
     /**
      * Number of kanji shown in top count screen.
      */
-    public final static int TOP_COUNT = 5;
+    public final static int TOP_COUNT = 8;
 
     /**
      * Number of kanji shown in more count screen.
@@ -76,7 +81,7 @@ public class ResultsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         final DrawnStroke[] strokes = DrawnStroke.loadFromIntent(getIntent());
 
-        String[] matches = getIntent().getStringArrayExtra(EXTRA_MATCHES);
+        final String[] matches = getIntent().getStringArrayExtra(EXTRA_MATCHES);
         HashSet<String> shown = new HashSet<String>(Arrays.asList(
                 getIntent().getStringArrayExtra(EXTRA_ALREADYSHOWN)));
         int startFrom = getIntent().getIntExtra(EXTRA_STARTFROM, 0);
@@ -104,6 +109,7 @@ public class ResultsActivity extends AppCompatActivity {
 
             // See if this is one to draw
             if (index >= 0) {
+                final int num = match;
                 Button button = (Button) findViewById(ids[buttonIndex++]);
                 button.setText(matches[match]);
                 final Intent data = new Intent();
@@ -113,6 +119,7 @@ public class ResultsActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         // put into editText of main
+                        setResult(RESULT_OK, data);
                         finish();
                     }
                 });
