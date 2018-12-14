@@ -5,6 +5,7 @@
     <string name="strokes">Strokes</string>
     <string name="done">Done</string>
 
+    <string name="top_results">Top Results</string>
     <string name="fuzzy">More</string>
     <string name="back_to_strokes">Go back</string>
     <string name="waitexact">Finding exact matches...</string>

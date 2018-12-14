@@ -10,9 +10,9 @@
 		android:orientation="horizontal">
 
 		<EditText
-			android:layout_width="287dp"
-			android:layout_height="wrap_content"
 			android:id="@+id/input_text"
+			android:layout_width="248dp"
+			android:layout_height="wrap_content"
 			android:inputType="text" />
 
 		<Button

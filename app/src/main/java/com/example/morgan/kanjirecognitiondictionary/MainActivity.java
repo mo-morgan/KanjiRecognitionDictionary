@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -52,6 +53,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.pickkanji);
+
+        new LoadThread();
+//        if (k == null) {
+//            Log.d("loadthread is null", "true");
+//        }
 
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.drawcontainer);
         kanjiDrawing = new KanjiDrawing(this);
@@ -253,6 +259,8 @@ public class MainActivity extends AppCompatActivity {
     {
         private LoadThread()
         {
+            Log.d("Loading from MainActivi",
+                    "Kanji drawing dictionary loading");
             setPriority(MIN_PRIORITY);
             // Start loading the kanji list but only if it wasn't loaded already
             synchronized(listSynch)
@@ -272,9 +280,13 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void run()
         {
+            Log.d("Loading from MainActivi",
+                    "Kanji drawing dictionary loading");
             try
             {
                 long start = System.currentTimeMillis();
+                Log.d("Loading from MainActivi",
+                        "Kanji drawing dictionary loading");
                 InputStream input = new MultiAssetInputStream(getAssets(),
                         new String[] { "strokes-20100823.xml.1", "strokes-20100823.xml.2" });
                 KanjiList loaded = new KanjiList(input);
@@ -296,10 +308,12 @@ public class MainActivity extends AppCompatActivity {
                     waitingActivities = null;
                 }
                 long time = System.currentTimeMillis() - start;
+                Log.d(MainActivity.class.getName(),
+                        "Kanji drawing dictionary loaded (" + time + "ms)");
             }
             catch(IOException e)
             {
-
+                Log.e(MainActivity.class.getName(), "Error loading dictionary", e);
             }
             finally
             {
@@ -395,7 +409,7 @@ public class MainActivity extends AppCompatActivity {
                         {
                             chars[i] = matches[i].getKanji().getKanji();
                         }
-//                        intent.putExtra(EXTRA_MATCHES, chars);
+                        intent.putExtra(EXTRA_MATCHES, chars);
                         activity.startActivityForResult(intent, 0);
                     }
                 });

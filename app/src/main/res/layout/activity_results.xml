@@ -14,8 +14,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="6"
-            android:text="Top Results"
+            android:layout_weight="5"
+            android:text="@string/top_results"
             android:textAlignment="center"
             android:textSize="50dp"
             />
@@ -30,27 +30,27 @@
                 android:id="@+id/no1"
                 android:text="語"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:textSize="130dp"
+                android:textSize="@dimen/kanji_size"
                 />
 
             <Button
                 android:id="@+id/no2"
                 android:text="語"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:textSize="130dp"
+                android:textSize="@dimen/kanji_size"
                 />
 
             <Button
                 android:id="@+id/no3"
                 android:text="語"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:textSize="130dp"
+                android:textSize="@dimen/kanji_size"
                 />
 
         </LinearLayout>
@@ -65,18 +65,53 @@
                 android:id="@+id/no4"
                 android:text="語"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:textSize="130dp"
+                android:textSize="@dimen/kanji_size"
                 />
 
             <Button
                 android:id="@+id/no5"
                 android:text="語"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:textSize="130dp"
+                android:textSize="@dimen/kanji_size"
+                />
+
+            <Button
+                android:id="@+id/no6"
+                android:text="語"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="@dimen/kanji_size"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/no7"
+                android:text="語"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="@dimen/kanji_size"
+                />
+
+            <Button
+                android:id="@+id/no8"
+                android:text="語"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="@dimen/kanji_size"
                 />
 
             <Button
