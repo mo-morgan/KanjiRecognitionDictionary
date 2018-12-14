@@ -2,20 +2,16 @@ package com.example.morgan.kanjirecognitiondictionary;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,22 +19,30 @@ import android.graphics.Color;
 
 import android.view.View.OnClickListener;
 
-import com.example.morgan.kanjirecognitiondictionary.parsers.DictionaryParser;
 import com.example.morgan.kanjirecognitiondictionary.parsers.JSONReader;
 import com.example.morgan.kanjirecognitiondictionary.providers.HttpDictonaryProvider;
 import com.example.morgan.kanjirecognitiondictionary.util.InputStroke;
 import com.example.morgan.kanjirecognitiondictionary.util.KanjiInfo;
 import com.example.morgan.kanjirecognitiondictionary.util.KanjiList;
 import com.example.morgan.kanjirecognitiondictionary.util.KanjiMatch;
+import com.example.morgan.kanjirecognitiondictionary.util.Pair;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URLConnection;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map;
 
 import static com.example.morgan.kanjirecognitiondictionary.ResultsActivity.*;
 
@@ -294,11 +298,12 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        public void parseFileAndSaveToActivity(String kanji) throws IOException, JSONException {
+        private void parseFileAndSaveToActivity(String kanji) throws IOException, JSONException {
             HttpDictonaryProvider website = new HttpDictonaryProvider();
             website.setWord(kanji);
 
             JSONObject jsonObject = JSONReader.readJsonFromUrl(HttpDictonaryProvider.getURL().toString());
+
             parseDictionary(jsonObject);
             //cant read kanji
 //            String data = website.dataSourceToString();
@@ -307,19 +312,65 @@ public class MainActivity extends AppCompatActivity {
 //            Log.d("websitedata: ", data);
         }
 
-        public void parseDictionary(JSONObject json) throws JSONException {
+        /**
+         * parses JSON data in the form
+         *              Map:- Key:   ArrayList of [Kanji] + [KanjiReading]
+         *                  - Value: ArrayList of its definitions
+         *
+         * @param json
+         * @throws JSONException
+         */
+        private void parseDictionary(JSONObject json) throws JSONException {
+
             JSONArray array = json.getJSONArray("data");
 
             if (array == null || array.length() < 1) {
                 //
                 Log.d("Array is :", "null or less than 1");
                 mHander.sendEmptyMessage(0);
-
                 return;
             }
-            for (int i = 0; i < array.length(); i++) {
 
+//            HashMap<ArrayList<String>, ArrayList<String>> items = new HashMap<>();
+            ArrayList<Pair<ArrayList<String>, ArrayList<String>>> items = new ArrayList<>();
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject word = array.getJSONObject(i);
+                if (word.getBoolean("is_common")) {
+                    JSONArray japanese = word.getJSONArray("japanese");
+                    JSONArray senses = word.getJSONArray("senses");
+                    ArrayList<String> defn = new ArrayList<>();
+                    for (int k = 0; k < senses.length(); k++) {
+                        JSONObject sense = senses.getJSONObject(k);
+                        JSONArray arr = sense.getJSONArray("english_definitions");
+                        for (int j = 0; j < arr.length(); j++) {
+                            defn.add(arr.getString(j));
+                        }
+                    }
+
+                    if (japanese != null && japanese.length() > 0
+                            && defn.size() > 0) {
+                        ArrayList<String> key = new ArrayList<>();
+                        for (int j = 0; j < japanese.length(); j++) {
+                            String w = japanese.getJSONObject(j).getString("word");
+                            String r = japanese.getJSONObject(j).getString("reading");
+                            key.add(w);
+                            key.add(r);
+                        }
+
+                        items.add(new Pair<ArrayList<String>, ArrayList<String>>(key, defn));
+                    }
+                }
             }
+//            for (int i = 0; i < items.size(); i++) {
+//                ArrayList<String> w = items.get(i).getFirst();
+//                ArrayList<String> d = items.get(i).getSecond();
+//                for (int j = 0; j < w.size(); j++) {
+//                    Log.d("JapWord: ", w.get(j));
+//                }
+//                for (int j = 0; j < d.size(); j++) {
+//                    Log.d("Definition:", d.get(j));
+//                }
+//            }
         }
     }
 
@@ -473,8 +524,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Converts from drawn strokes to the KanjiInfo object that
-     * com.leafdigital.kanji classes expect.
+     * Converts from drawn strokes to the KanjiInfo object that classes expect
      * @param strokes Strokes
      * @return Equivalent KanjiInfo object
      */
