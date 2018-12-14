@@ -1,6 +1,6 @@
 package com.example.morgan.kanjirecognitiondictionary.util;
 
-public class Pair<A, B> {
+public class Pair<A, B> implements java.io.Serializable {
     final private A first;
     final private B second;
 

@@ -16,7 +16,7 @@ along with kanjirecog.  If not, see <http://www.gnu.org/licenses/>.
 
 Copyright 2011 Samuel Marshall.
 */
-package com.example.morgan.kanjirecognitiondictionary;
+package com.example.morgan.kanjirecognitiondictionary.util;
 
 import java.io.*;
 import java.util.*;

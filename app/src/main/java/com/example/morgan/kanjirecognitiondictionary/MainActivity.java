@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.graphics.Color;
 
@@ -25,26 +26,20 @@ import com.example.morgan.kanjirecognitiondictionary.util.InputStroke;
 import com.example.morgan.kanjirecognitiondictionary.util.KanjiInfo;
 import com.example.morgan.kanjirecognitiondictionary.util.KanjiList;
 import com.example.morgan.kanjirecognitiondictionary.util.KanjiMatch;
+import com.example.morgan.kanjirecognitiondictionary.util.MultiAssetInputStream;
 import com.example.morgan.kanjirecognitiondictionary.util.Pair;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Map;
 
 import static com.example.morgan.kanjirecognitiondictionary.ResultsActivity.*;
+import static com.example.morgan.kanjirecognitiondictionary.DictionaryActivity.*;
 
 public class MainActivity extends AppCompatActivity {
     private KanjiDrawing kanjiDrawing;
@@ -132,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 EditText e = (EditText) findViewById(R.id.input_text);
-                new SearchThread(e.getText().toString());
+                new SearchThread(e.getText().toString(), MainActivity.this);
             }
         });
         // for alert dialog on bad search
@@ -277,12 +272,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     *  Separate thread for parsing data from Jisho.org API
+     */
     private class SearchThread implements Runnable {
         private String kanji;
+        private Intent intent;
+        private ProgressDialog progressDialog;
+        private Activity activity;
 
-        public SearchThread(String kanji) {
+        public SearchThread(String kanji, Activity activity) {
             this.kanji = kanji;
-            Log.d("kanji is : ", kanji);
+            this.activity = activity;
+            progressDialog = new ProgressDialog(activity);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.setMessage("Loading...");
+            progressDialog.setCancelable(false);
+            progressDialog.setProgressNumberFormat(null);
+            progressDialog.setProgressPercentFormat(null);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.show();
             Thread thread = new Thread(this);
             thread.start();
         }
@@ -295,6 +304,8 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             } catch (JSONException e) {
                 e.printStackTrace();
+            } finally {
+                progressDialog.dismiss();
             }
         }
 
@@ -305,17 +316,12 @@ public class MainActivity extends AppCompatActivity {
             JSONObject jsonObject = JSONReader.readJsonFromUrl(HttpDictonaryProvider.getURL().toString());
 
             parseDictionary(jsonObject);
-            //cant read kanji
-//            String data = website.dataSourceToString();
-
-//            parseDictionary(data);
-//            Log.d("websitedata: ", data);
         }
 
         /**
          * parses JSON data in the form
-         *              Map:- Key:   ArrayList of [Kanji] + [KanjiReading]
-         *                  - Value: ArrayList of its definitions
+         *              ArrayList of Pair: -Pair.first is a list of [Kanji] + [Pronunciation]
+         *                                 -Pair.second is a list of [Definition]
          *
          * @param json
          * @throws JSONException
@@ -325,17 +331,15 @@ public class MainActivity extends AppCompatActivity {
             JSONArray array = json.getJSONArray("data");
 
             if (array == null || array.length() < 1) {
-                //
-                Log.d("Array is :", "null or less than 1");
+                progressDialog.dismiss();
                 mHander.sendEmptyMessage(0);
                 return;
             }
 
-//            HashMap<ArrayList<String>, ArrayList<String>> items = new HashMap<>();
             ArrayList<Pair<ArrayList<String>, ArrayList<String>>> items = new ArrayList<>();
             for (int i = 0; i < array.length(); i++) {
                 JSONObject word = array.getJSONObject(i);
-                if (word.getBoolean("is_common")) {
+                if (word.has("is_common") && word.getBoolean("is_common")) {
                     JSONArray japanese = word.getJSONArray("japanese");
                     JSONArray senses = word.getJSONArray("senses");
                     ArrayList<String> defn = new ArrayList<>();
@@ -351,9 +355,11 @@ public class MainActivity extends AppCompatActivity {
                             && defn.size() > 0) {
                         ArrayList<String> key = new ArrayList<>();
                         for (int j = 0; j < japanese.length(); j++) {
-                            String w = japanese.getJSONObject(j).getString("word");
+                            if (japanese.getJSONObject(j).has("word")) {
+                                String w = japanese.getJSONObject(j).getString("word");
+                                key.add(w);
+                            }
                             String r = japanese.getJSONObject(j).getString("reading");
-                            key.add(w);
                             key.add(r);
                         }
 
@@ -361,6 +367,11 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
+
+            progressDialog.dismiss();
+            intent = new Intent(activity, DictionaryActivity.class);
+            intent.putExtra(DICT, items);
+            startActivity(intent);
 //            for (int i = 0; i < items.size(); i++) {
 //                ArrayList<String> w = items.get(i).getFirst();
 //                ArrayList<String> d = items.get(i).getSecond();

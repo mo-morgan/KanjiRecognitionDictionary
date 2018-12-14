@@ -5,9 +5,7 @@ import android.os.Bundle;
 
 public class DictionaryActivity extends AppCompatActivity {
 
-    public final static String DICT_WORD = "word";
-
-    public final static String DICT_DESCRIPTION = "description";
+    public final static String DICT = "dictionary";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
