@@ -1,16 +1,12 @@
 package com.example.morgan.kanjirecognitiondictionary;
 
-import android.content.Context;
+
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.view.View.OnClickListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 
 import com.example.morgan.kanjirecognitiondictionary.KanjiDrawing.*;
 import com.example.morgan.kanjirecognitiondictionary.util.KanjiInfo;
