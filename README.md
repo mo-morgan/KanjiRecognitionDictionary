@@ -16,4 +16,6 @@ It's really simple!
 2. Download KanjiRecognizer.apk
 3. Run the app!
 
-Make sure you update your android settings to allow installation from Chrome sources.
+Make sure you update your android settings to allow installation from Chrome sources.  
+  
+This app uses the KanjiVG API: https://kanjivg.tagaini.net/
