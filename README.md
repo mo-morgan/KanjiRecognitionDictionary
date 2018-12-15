@@ -18,4 +18,6 @@ It's really simple!
 
 Make sure you update your android settings to allow installation from Chrome sources.  
   
-This app uses the KanjiVG API: https://kanjivg.tagaini.net/
+This app uses the KanjiVG API as well as the Jisho API:  
+https://kanjivg.tagaini.net/  
+https://jisho.org/forum/54fefc1f6e73340b1f160000-is-there-any-kind-of-search-api
