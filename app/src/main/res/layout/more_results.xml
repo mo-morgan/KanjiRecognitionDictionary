@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="horizontal"
         android:layout_weight="9"
         >
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_weight="2"
             >
@@ -21,8 +21,8 @@
             <Button
                 android:id="@+id/no1"
                 android:text="語"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="6"
                 android:textSize="40dp"
                 />
@@ -30,8 +30,8 @@
             <Button
                 android:id="@+id/no4"
                 android:text="語"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="6"
                 android:textSize="40dp"
                 />
@@ -39,8 +39,8 @@
             <Button
                 android:id="@+id/no7"
                 android:text="語"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="6"
                 android:textSize="40dp"
                 />
@@ -48,8 +48,8 @@
             <Button
                 android:id="@+id/no10"
                 android:text="語"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="6"
                 android:textSize="40dp"
                 />
@@ -57,8 +57,8 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_weight="2"
             >
@@ -66,8 +66,8 @@
             <Button
                 android:id="@+id/no2"
                 android:text="語"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="6"
                 android:textSize="40dp"
                 />
@@ -75,8 +75,8 @@
             <Button
                 android:id="@+id/no5"
                 android:text="語"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="6"
                 android:textSize="40dp"
                 />
@@ -84,8 +84,8 @@
             <Button
                 android:id="@+id/no8"
                 android:text="語"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="6"
                 android:textSize="40dp"
                 />
@@ -93,8 +93,8 @@
             <Button
                 android:id="@+id/no11"
                 android:text="語"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="6"
                 android:textSize="40dp"
                 />
@@ -102,8 +102,8 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_weight="2"
             >
@@ -111,8 +111,8 @@
             <Button
                 android:id="@+id/no3"
                 android:text="語"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="6"
                 android:textSize="40dp"
                 />
@@ -120,8 +120,8 @@
             <Button
                 android:id="@+id/no6"
                 android:text="語"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="6"
                 android:textSize="40dp"
                 />
@@ -129,19 +129,19 @@
             <Button
                 android:id="@+id/no9"
                 android:text="語"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="6"
                 android:textSize="40dp"
                 />
 
             <Button
-                android:id="@+id/no12"
-                android:text="語"
+                android:id="@+id/other"
+                android:text="@string/more"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="6"
-                android:textSize="40dp"
+                android:textSize="20dp"
                 />
 
         </LinearLayout>

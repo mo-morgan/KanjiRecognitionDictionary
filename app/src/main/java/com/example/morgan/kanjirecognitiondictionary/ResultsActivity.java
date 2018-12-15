@@ -64,12 +64,12 @@ public class ResultsActivity extends AppCompatActivity {
     /**
      * Number of kanji shown in more count screen.
      */
-    public final static int MORE_COUNT = 12;
+    public final static int MORE_COUNT = 11;
 
     private final static int[] ALL_IDS =
             {
                     R.id.no1, R.id.no2, R.id.no3, R.id.no4, R.id.no5, R.id.no6,
-                    R.id.no7, R.id.no8, R.id.no9, R.id.no10, R.id.no11, R.id.no12
+                    R.id.no7, R.id.no8, R.id.no9, R.id.no10, R.id.no11
             };
 
     @Override
@@ -89,7 +89,6 @@ public class ResultsActivity extends AppCompatActivity {
 
         setTitle(getString(label).replace("#", strokes.length + ""));
         setContentView(showMore ? R.layout.more_results : R.layout.activity_results);
-//        ((Button)findViewById(R.id.other)).setText(getString(otherLabel)); // unecessary?
 
         int[] ids = new int[showMore ? MORE_COUNT : TOP_COUNT];
         System.arraycopy(ALL_IDS, 0, ids, 0, ids.length);
@@ -138,18 +137,19 @@ public class ResultsActivity extends AppCompatActivity {
             button.setEnabled(false);
         }
 
-        if (!showMore) {
-            Button other = (Button) findViewById(R.id.other);
-            other.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!MainActivity.tryMore(ResultsActivity.this, getIntent())) {
-                        setResult(RESULT_OK);
-                        finish();
-                    }
+        Button button = (Button)findViewById(R.id.other);
+        button.setOnClickListener(new OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if(!MainActivity.tryMore(ResultsActivity.this, getIntent()))
+                {
+                    setResult(RESULT_OK);
+                    finish();
                 }
-            });
-        }
+            }
+        });
 
         Button back = (Button) findViewById(R.id.back);
         back.setOnClickListener(new OnClickListener() {

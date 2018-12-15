@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.graphics.Color;
 
@@ -39,7 +38,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import static com.example.morgan.kanjirecognitiondictionary.ResultsActivity.*;
-import static com.example.morgan.kanjirecognitiondictionary.DictionaryActivity.*;
 
 public class MainActivity extends AppCompatActivity {
     private KanjiDrawing kanjiDrawing;
@@ -342,35 +340,36 @@ public class MainActivity extends AppCompatActivity {
             ArrayList<Pair<ArrayList<Pair<String, String>>, ArrayList<String>>> items = new ArrayList<>();
             for (int i = 0; i < array.length(); i++) {
                 JSONObject word = array.getJSONObject(i);
-                if (word.has("is_common") && word.getBoolean("is_common")) {
-                    JSONArray japanese = word.getJSONArray("japanese");
-                    JSONArray senses = word.getJSONArray("senses");
-                    ArrayList<String> defn = new ArrayList<>();
-                    for (int k = 0; k < senses.length(); k++) {
-                        JSONObject sense = senses.getJSONObject(k);
-                        JSONArray arr = sense.getJSONArray("english_definitions");
-                        for (int j = 0; j < arr.length(); j++) {
-                            defn.add(arr.getString(j));
-                        }
+                JSONArray japanese = word.getJSONArray("japanese");
+                JSONArray senses = word.getJSONArray("senses");
+                ArrayList<String> defn = new ArrayList<>();
+                for (int k = 0; k < senses.length(); k++) {
+                    JSONObject sense = senses.getJSONObject(k);
+                    JSONArray arr = sense.getJSONArray("english_definitions");
+                    for (int j = 0; j < arr.length(); j++) {
+                        defn.add(arr.getString(j));
                     }
+                }
 
-                    if (japanese != null && japanese.length() > 0
-                            && defn.size() > 0) {
-                        ArrayList<Pair<String, String>> key = new ArrayList<>();
-                        for (int j = 0; j < japanese.length(); j++) {
-                            Pair<String, String> pair;
-                            if (japanese.getJSONObject(j).has("word")) {
-                                String w = japanese.getJSONObject(j).getString("word");
-                                String r = japanese.getJSONObject(j).getString("reading");
-                                pair = new Pair<>(w, r);
-                            } else {
-                                String r = japanese.getJSONObject(j).getString("reading");
-                                pair = new Pair<>("", r);
-                            }
-                            key.add(pair);
+                if (japanese != null && japanese.length() > 0
+                        && defn.size() > 0) {
+                    ArrayList<Pair<String, String>> key = new ArrayList<>();
+                    for (int j = 0; j < japanese.length(); j++) {
+                        Pair<String, String> pair;
+                        if (japanese.getJSONObject(j).has("word") && japanese.getJSONObject(j).has("reading")) {
+                            String w = japanese.getJSONObject(j).getString("word");
+                            String r = japanese.getJSONObject(j).getString("reading");
+                            pair = new Pair<>(w, r);
+                        } else if (japanese.getJSONObject(j).has("reading")) {
+                            String r = japanese.getJSONObject(j).getString("reading");
+                            pair = new Pair<>("", r);
+                        } else {
+                            String w = japanese.getJSONObject(j).getString("word");
+                            pair = new Pair<>(w, "");
                         }
-                        items.add(new Pair<ArrayList<Pair<String, String>>, ArrayList<String>>(key, defn));
+                        key.add(pair);
                     }
+                    items.add(new Pair<ArrayList<Pair<String, String>>, ArrayList<String>>(key, defn));
                 }
             }
 
@@ -380,16 +379,6 @@ public class MainActivity extends AppCompatActivity {
             bundle.putSerializable("value", items);
             intent.putExtras(bundle);
             startActivity(intent);
-//            for (int i = 0; i < items.size(); i++) {
-//                ArrayList<String> w = items.get(i).getFirst();
-//                ArrayList<String> d = items.get(i).getSecond();
-//                for (int j = 0; j < w.size(); j++) {
-//                    Log.d("JapWord: ", w.get(j));
-//                }
-//                for (int j = 0; j < d.size(); j++) {
-//                    Log.d("Definition:", d.get(j));
-//                }
-//            }
         }
     }
 

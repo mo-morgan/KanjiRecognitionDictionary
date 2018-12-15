@@ -1,6 +1,5 @@
 package com.example.morgan.kanjirecognitiondictionary;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,11 +10,8 @@ import android.widget.Button;
 import com.example.morgan.kanjirecognitiondictionary.util.Pair;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class DictionaryActivity extends AppCompatActivity {
-
-    public final static String DICT = "dictionary";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
