@@ -1,7 +1,7 @@
 # KanjiRecognitionDictionary
 Forgetting kanji pronunciation? Not sure about your stroke orders? Or maybe you just want to know what a word means?  
 Use this Kanji Recognition App! It automatically detects your strokes which makes it so much easier to look up a definition!
-This app supports English, Kanji, and Hiragana inputs. So you can search using either language and lookup the meanings in both Japanese and English!
+This app supports English, Kanji, Hiragana, and Katakana inputs. So you can search using either language and lookup the meanings in both Japanese and English!
 
 <div align="center>
 <img src="img/first.jpg" alt="first" width=180 height=370/>
