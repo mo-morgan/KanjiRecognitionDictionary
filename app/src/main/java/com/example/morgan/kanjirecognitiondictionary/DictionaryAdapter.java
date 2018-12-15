@@ -15,9 +15,9 @@ import java.util.ArrayList;
 
 public class DictionaryAdapter extends RecyclerView.Adapter<DictionaryAdapter.ViewHolder> {
 
-    ArrayList<Pair<ArrayList<String>, ArrayList<String>>> dict;
+    ArrayList<Pair<ArrayList<Pair<String, String>>, ArrayList<String>>> dict;
 
-    public DictionaryAdapter(ArrayList<Pair<ArrayList<String>, ArrayList<String>>> dict) {
+    public DictionaryAdapter(ArrayList<Pair<ArrayList<Pair<String, String>>, ArrayList<String>>> dict) {
         this.dict = dict;
     }
 
@@ -36,24 +36,33 @@ public class DictionaryAdapter extends RecyclerView.Adapter<DictionaryAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        Pair<ArrayList<String>, ArrayList<String>> info =  dict.get(i);
+        Pair<ArrayList<Pair<String, String>>, ArrayList<String>> info =  dict.get(i);
 
-        ArrayList<String> words = info.getFirst();
+        ArrayList<Pair<String, String>> words = info.getFirst();
         ArrayList<String> defns = info.getSecond();
         String word = "";
         String defn = "";
         for (int j = 0; j < words.size(); j++) {
-            word += words.get(j);
+            Pair<String, String> pair = words.get(j);
+            word += pair.getFirst() + " (" + pair.getSecond() + ")\n";
         }
         for (int j = 0; j < defns.size(); j++) {
-
+            defn += defns.get(j);
+            if (j != defns.size() - 1) {
+                defn += ", ";
+            }
         }
 
+        TextView w = viewHolder.word;
+        w.setText(word);
+        LinearLayout linearLayout = viewHolder.linearLayout;
+        TextView d = (TextView) linearLayout.getChildAt(0);
+        d.setText(defn);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return dict.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

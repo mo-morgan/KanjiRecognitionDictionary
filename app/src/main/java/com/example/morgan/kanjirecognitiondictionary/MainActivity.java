@@ -320,7 +320,8 @@ public class MainActivity extends AppCompatActivity {
 
         /**
          * parses JSON data in the form
-         *              ArrayList of Pair: -Pair.first is a list of [Kanji] + [Pronunciation]
+         *              ArrayList of Pair: -Pair.first is a list of Pair : - [Kanji]
+         *                                                                 - [Pronunciation]
          *                                 -Pair.second is a list of [Definition]
          *
          * @param json
@@ -336,7 +337,9 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            ArrayList<Pair<ArrayList<String>, ArrayList<String>>> items = new ArrayList<>();
+            // List of data -> pair of Japanese, Senses
+
+            ArrayList<Pair<ArrayList<Pair<String, String>>, ArrayList<String>>> items = new ArrayList<>();
             for (int i = 0; i < array.length(); i++) {
                 JSONObject word = array.getJSONObject(i);
                 if (word.has("is_common") && word.getBoolean("is_common")) {
@@ -353,24 +356,29 @@ public class MainActivity extends AppCompatActivity {
 
                     if (japanese != null && japanese.length() > 0
                             && defn.size() > 0) {
-                        ArrayList<String> key = new ArrayList<>();
+                        ArrayList<Pair<String, String>> key = new ArrayList<>();
                         for (int j = 0; j < japanese.length(); j++) {
+                            Pair<String, String> pair;
                             if (japanese.getJSONObject(j).has("word")) {
                                 String w = japanese.getJSONObject(j).getString("word");
-                                key.add(w);
+                                String r = japanese.getJSONObject(j).getString("reading");
+                                pair = new Pair<>(w, r);
+                            } else {
+                                String r = japanese.getJSONObject(j).getString("reading");
+                                pair = new Pair<>("", r);
                             }
-                            String r = japanese.getJSONObject(j).getString("reading");
-                            key.add(r);
+                            key.add(pair);
                         }
-
-                        items.add(new Pair<ArrayList<String>, ArrayList<String>>(key, defn));
+                        items.add(new Pair<ArrayList<Pair<String, String>>, ArrayList<String>>(key, defn));
                     }
                 }
             }
 
             progressDialog.dismiss();
             intent = new Intent(activity, DictionaryActivity.class);
-            intent.putExtra(DICT, items);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("value", items);
+            intent.putExtras(bundle);
             startActivity(intent);
 //            for (int i = 0; i < items.size(); i++) {
 //                ArrayList<String> w = items.get(i).getFirst();

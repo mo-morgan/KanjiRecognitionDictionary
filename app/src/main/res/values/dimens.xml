@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="kanji_size">70dp</dimen>
+
+    <dimen name="title">20dp</dimen>
 </resources>
