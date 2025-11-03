@@ -11,7 +11,7 @@ This app supports English, Kanji, Hiragana, and Katakana inputs. So you can sear
 </div>
 
 # Installation Procedure
-It's really simple!  
+It's really simple!!  
 1. Go to "Releases"
 2. Download KanjiRecognizer.apk
 3. Run the app!
